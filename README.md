@@ -533,7 +533,7 @@ http://localhost:3001
 ## 🚀 Usage Guide
 
 ### User Registration
-
+![Register Page](./frontend/app/screenshots/register.png)
 1. Click **"Register"** on login page
 2. Enter email and password (min 8 characters)
 3. Accept terms and conditions
@@ -541,14 +541,15 @@ http://localhost:3001
 5. Auto-redirected to dashboard
 
 ### User Login
-
+![Login Page](./frontend/app/screenshots/login.png)
 1. Enter registered email
 2. Enter password
 3. Click **"Login"**
 4. Navigate to dashboard on success
 
 ### Transaction Extraction
-
+![Transaction Page](./frontend/app/screenshots/dashboard1.png)
+![Transaction Page](./frontend/app/screenshots/dashboard2.png)
 1. Go to **Dashboard** → **Transactions**
 2. Click **"Upload Transaction Data"**
 3. Select SMS/Statement file or paste raw data
@@ -557,7 +558,7 @@ http://localhost:3001
 6. Transactions saved to database automatically
 
 ### Transaction Management
-
+![Transaction Page](./frontend/app/screenshots/dashboard3.png)
 - **View**: All transactions in table format
 - **Filter**: By date range, amount, currency
 - **Sort**: By date, amount, merchant name
