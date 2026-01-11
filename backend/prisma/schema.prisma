@@ -1,0 +1,139 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- MANDATORY BETTER AUTH TABLES ---
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  sessions      Session[]
+  accounts      Account[]
+  members       Member[]      
+  transactions  Transaction[] 
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime
+  updatedAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  activeOrganizationId String? // Required for the Organization Plugin logic
+
+  @@map("session")
+}
+
+model Member {
+  id             String       @id @default(uuid())
+  role           String       // "admin" | "member"
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("member")
+}
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique // Essential for Better Auth URL handling
+  createdAt DateTime @default(now())
+
+  members      Member[]
+  transactions Transaction[]
+  invitations  Invitation[] // Added for plugin completeness
+
+  @@index([createdAt])
+  @@map("organization")
+}
+
+model Invitation {
+  id             String       @id @default(uuid())
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String       // "pending", "accepted", "rejected"
+  expiresAt      DateTime
+  inviterId      String
+
+  @@map("invitation")
+}
+
+// --- BUSINESS LOGIC: TRANSACTIONS ---
+
+model Transaction {
+  id String @id @default(uuid())
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  date        DateTime
+  description String
+
+  amount   Decimal @db.Decimal(12, 2)
+  currency String  @default("INR")
+
+  type    TransactionType
+  balance Decimal?        @db.Decimal(12, 2)
+
+  rawText    String  @db.Text
+  confidence Float   @default(0.0)
+  metadata   Json?   // Store extra AI-extracted fields here
+
+  createdAt DateTime @default(now())
+
+  @@index([organizationId, createdAt(sort: Desc)])
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("transaction")
+}
+
+enum TransactionType {
+  DEBIT
+  CREDIT
+}
+
+// --- AUTH HELPERS ---
+
+model Account {
+  id           String    @id
+  accountId    String
+  providerId   String
+  userId       String
+  user         User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  password     String?
+  createdAt    DateTime
+  updatedAt    DateTime
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  @@map("verification")
+}

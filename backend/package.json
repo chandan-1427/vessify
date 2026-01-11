@@ -1,0 +1,34 @@
+{
+  "name": "backend",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "cross-env NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.19.8",
+    "@prisma/adapter-pg": "^7.2.0",
+    "@prisma/client": "^7.2.0",
+    "better-auth": "^1.4.10",
+    "hono": "^4.11.3",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.3",
+    "@types/pg": "^8.16.0",
+    "@types/supertest": "^6.0.3",
+    "cross-env": "^10.1.0",
+    "dotenv": "^17.2.3",
+    "jest": "^30.2.0",
+    "jest-mock-extended": "^4.0.0",
+    "prisma": "^7.2.0",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.6",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
