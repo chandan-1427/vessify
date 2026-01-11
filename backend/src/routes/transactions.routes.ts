@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { sessionMiddleware } from "../middleware/session.js";
 import { rateLimit } from "../middleware/rateLimit.js";
 import {
   extractTransaction,
@@ -22,7 +21,6 @@ const txRouter = new Hono<{
  */
 txRouter.post(
   "/extract",
-  sessionMiddleware,
   rateLimit({ limit: 20, windowMs: 60_000 }),
   async (c) => {
     const orgId = c.get("orgId");
@@ -53,7 +51,6 @@ txRouter.post(
  */
 txRouter.post(
   "/save",
-  sessionMiddleware,
   rateLimit({ limit: 40, windowMs: 60_000 }),
   async (c) => {
     const user = c.get("user");
@@ -87,7 +84,7 @@ txRouter.post(
 /**
  * GET /api/transactions
  */
-txRouter.get("/", sessionMiddleware, async (c) => {
+txRouter.get("/", async (c) => {
   const orgId = c.get("orgId");
   if (!orgId) {
     return c.json({ error: "No organization context" }, 403);
