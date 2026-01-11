@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { 
-  ShieldCheck, ArrowRight, Landmark, Menu, 
-  Wallet, TrendingUp, History, Lock, 
+  ArrowRight, Landmark, Menu, 
+  Wallet, History, Lock, 
   FileJson, Code2, CheckCircle2, Shield
 } from "lucide-react";
 
