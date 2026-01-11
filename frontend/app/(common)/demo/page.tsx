@@ -19,15 +19,52 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// 1. Define strict types for our presets to avoid 'any'
+// --- TYPE DEFINITIONS ---
+
 type PresetKey = "sms" | "email" | "csv";
+
+interface Merchant {
+  name: string;
+  category: string;
+  location?: string;
+}
+
+// Defining specific shapes for our financial data to replace 'any'
+interface BaseTransactionOutput {
+  id: string;
+  timestamp: string;
+  amount: number;
+  currency: string;
+  type: "DEBIT" | "CREDIT";
+  merchant: Merchant;
+  confidence: number;
+}
+
+interface SMSOutput extends BaseTransactionOutput {
+  account_suffix: string;
+  balance_snapshot: number;
+}
+
+interface EmailOutput extends BaseTransactionOutput {
+  payment_method: string;
+  tags: string[];
+}
+
+interface CSVOutput extends BaseTransactionOutput {
+  status: string;
+}
+
+// Discriminated Union for the output
+type TransactionOutput = SMSOutput | EmailOutput | CSVOutput;
 
 interface PresetData {
   label: string;
   icon: React.ReactNode;
   input: string;
-  output: Record<string, any>;
+  output: TransactionOutput;
 }
+
+// --- MOCK DATA ---
 
 const PRESETS: Record<PresetKey, PresetData> = {
   sms: {
@@ -81,10 +118,10 @@ const PRESETS: Record<PresetKey, PresetData> = {
 
 export default function TechnicalDemo() {
   const [activeTab, setActiveTab] = useState<PresetKey>("sms");
-  const [inputText, setInputText] = useState(PRESETS.sms.input);
-  const [isParsing, setIsParsing] = useState(false);
+  const [inputText, setInputText] = useState<string>(PRESETS.sms.input);
+  const [isParsing, setIsParsing] = useState<boolean>(false);
 
-  // 2. Extracted parse logic to be reused
+  // Parse logic simulation
   const triggerParse = () => {
     setIsParsing(true);
     setTimeout(() => {
@@ -92,13 +129,17 @@ export default function TechnicalDemo() {
     }, 800);
   };
 
-  // 3. Handle tab change: Update state synchronously in the handler 
-  // to avoid the 'cascading renders' effect warning.
+  // Handler handles all state changes triggered by user interaction
   const handleTabChange = (value: string) => {
     const key = value as PresetKey;
     setActiveTab(key);
     setInputText(PRESETS[key].input);
     triggerParse();
+  };
+
+  const copyToClipboard = () => {
+    const text = JSON.stringify(PRESETS[activeTab].output, null, 2);
+    navigator.clipboard.writeText(text);
   };
 
   return (
@@ -194,7 +235,7 @@ export default function TechnicalDemo() {
                       className="flex flex-col items-center justify-center h-80 space-y-4"
                     >
                       <RefreshCcw className="w-8 h-8 text-emerald-500 animate-spin" />
-                      <p className="text-slate-500 animate-pulse">Running RegEx Engine...</p>
+                      <p className="text-slate-500 animate-pulse">Running Parser...</p>
                     </motion.div>
                   ) : (
                     <motion.div
@@ -207,7 +248,12 @@ export default function TechnicalDemo() {
                          <div className="flex items-center gap-2 text-emerald-500 text-xs">
                             <CheckCircle2 className="w-4 h-4" /> Valid Schema Extracted
                          </div>
-                         <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-slate-800">
+                         <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 hover:bg-slate-800"
+                            onClick={copyToClipboard}
+                         >
                             <Copy className="w-4 h-4 text-slate-400" />
                          </Button>
                       </div>

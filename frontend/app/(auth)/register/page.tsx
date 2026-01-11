@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   ShieldCheck, 
-  ArrowRight, 
   Loader2, 
   AlertCircle, 
   CheckCircle2, 

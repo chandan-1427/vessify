@@ -3,7 +3,6 @@ import { authOptions } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { 
   Landmark, 
-  LogOut, 
   User, 
   ShieldCheck, 
   Activity 
@@ -11,7 +10,6 @@ import {
 
 import TransactionExtractor from "./transaction-extractor";
 import TransactionsList from "./transactions-list";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import LogoutButton from "@/components/auth/logout-button"; // Client component for signOut
