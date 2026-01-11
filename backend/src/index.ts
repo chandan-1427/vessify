@@ -3,8 +3,8 @@ import { Hono } from "hono";
 import { logger } from "hono/logger";
 import { cors } from "hono/cors";
 
-import { authRouter } from "./routes/auth.routes";
-import { txRouter } from "./routes/transactions.routes";
+import { authRouter } from "./routes/auth.routes.js";
+import { txRouter } from "./routes/transactions.routes.js";
 
 const CLIENT_ORIGIN = process.env.BASE_URL_CLIENT
   ? new URL(process.env.BASE_URL_CLIENT).origin

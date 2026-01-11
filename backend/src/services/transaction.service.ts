@@ -1,8 +1,8 @@
-import { prisma } from "../lib/prisma";
+import { prisma } from "../lib/prisma.js";
 import type {
   ExtractTransactionResult,
   SaveTransactionInput,
-} from "../types/transaction.types";
+} from "../types/transaction.types.js";
 
 /**
  * 🔍 Preview-only extraction

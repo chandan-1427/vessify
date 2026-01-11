@@ -1,15 +1,15 @@
 import { Hono } from "hono";
-import { sessionMiddleware } from "../middleware/session";
-import { rateLimit } from "../middleware/rateLimit";
+import { sessionMiddleware } from "../middleware/session.js";
+import { rateLimit } from "../middleware/rateLimit.js";
 import {
   extractTransaction,
   saveTransaction,
-} from "../services/transaction.service";
-import { prisma } from "../lib/prisma";
+} from "../services/transaction.service.js";
+import { prisma } from "../lib/prisma.js";
 import {
   extractTransactionSchema,
   saveTransactionSchema,
-} from "../types/transaction.schema";
+} from "../types/transaction.schema.js";
 const txRouter = new Hono<{
   Variables: {
     user: any;

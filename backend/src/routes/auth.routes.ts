@@ -4,9 +4,9 @@ import {
   registerAndLoginUser,
   loginUser,
   logoutUser,
-} from "../services/auth.service";
-import type { RegisterInput, LoginInput } from "../types/auth.types";
-import { auth } from "../lib/auth";
+} from "../services/auth.service.js";
+import type { RegisterInput, LoginInput } from "../types/auth.types.js";
+import { auth } from "../lib/auth.js";
 
 const authRouter = new Hono();
 

@@ -3,7 +3,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { organization } from "better-auth/plugins";
 // IMPORT the instance, don't create a new one
-import { prisma } from "./prisma"; 
+import { prisma } from "./prisma.js"; 
 
 export const auth = betterAuth({
     database: prismaAdapter(prisma, {

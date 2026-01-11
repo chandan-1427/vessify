@@ -1,6 +1,6 @@
-import { auth } from "../lib/auth";
-import { prisma } from "../lib/prisma";
-import type { RegisterInput, LoginInput } from "../types/auth.types";
+import { auth } from "../lib/auth.js";
+import { prisma } from "../lib/prisma.js";
+import type { RegisterInput, LoginInput } from "../types/auth.types.js";
 
 export async function registerAndLoginUser(input: RegisterInput) {
   const { email, password, name } = input;

@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { Pool } from "pg";
 import { PrismaPg } from '@prisma/adapter-pg'
-import { PrismaClient } from '../../generated/prisma/client'
+import { PrismaClient } from '../../generated/prisma/client.js'
 
 // During tests, process.env.DATABASE_URL will point to your test DB
 const connectionString = `${process.env.DATABASE_URL}`
